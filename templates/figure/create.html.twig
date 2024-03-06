@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="text-primary text-center mb-5">Ajout d'une figure</h1>
+
+    <div class="mb-3">
+        {{ form_start(figureForm)}}
+            {{ form_widget(figureForm)}}
+            <input type="submit" class="btn btn-primary" value="Valider">
+        {{ form_end(figureForm)}}
+    </div>
+{% endblock %}
+
+{% block title %}Ajout d'une figure{% endblock %}
+
