@@ -6,13 +6,15 @@
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ path('home_home') }}}" title="Home">Home |</a></li>
+                <li class="nav-item"><a class="nav-link active" href="{{ path('home_home') }}" title="Home">Home |</a></li>
 
-                <li class="nav-item"><a class="nav-link" href="{{ path('create_home') }}">Tricks |</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ path('figure_create') }}" title="Tricks">Tricks |</a></li>
 
-                <li class="nav-item"><a class="nav-link" href="#">Sign in |</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ path('figure_media') }}" title="Media">Media |</a></li>
 
-                <li class="nav-item"><a class="nav-link" href="#">Sign up</a></li>
+                <li class="nav-item"><a class="nav-link" title="Sign in" href="#">Sign in |</a></li>
+
+                <li class="nav-item"><a class="nav-link" href="#" title="Sign up">Sign up</a></li>
             </ul>
         </div>
     </div>

@@ -21,9 +21,9 @@ class FigureType extends AbstractType
                 'label' => 'Contenu',
                 'attr' => ['placeholder' => 'Contenu de la fagure !'],
             ])
-            ->add('name', null, [
+            ->add('name', TextType::class, [
                 'label' => 'Nom :',
-                'attr' => ['placeholder' => 'Nom de la fagure !'],
+                'attr' => ['placeholder' => 'Nom de la figure !'],
             ])
             ->add('category', ChoiceType::class, [
                 'label' => 'Groupe',
@@ -35,15 +35,11 @@ class FigureType extends AbstractType
                 ],
                 'multiple' => false,
             ])
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
-            ])
-           /* ->add('medias', EntityType::class, [
+            ->add('medias', EntityType::class, [
                 'class' => Media::class,
-                'choice_label' => 'id',
+                'choice_label' => 'path',
                 'multiple' => true,
-            ])*/
+            ])
         ;
     }
 

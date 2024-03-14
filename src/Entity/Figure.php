@@ -6,21 +6,31 @@ use App\Repository\FigureRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: FigureRepository::class)]
 class Figure
 {
+    private const GROUPE_1 = "Groupe 1";
+    private const GROUPE_2 = "Groupe 2";
+    private const GROUPE_3 = "Groupe 3";
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: 'Veuillez renseigner ce champ')]
+    #[Assert\Length(max: 500, maxMessage: 'votre commentaire ne doit pas dépasser les 500 caractères !')]
     #[ORM\Column(length: 500)]
     private ?string $content = null;
 
+    #[Assert\NotBlank(message: 'Veuillez renseigner ce champ')]
+    #[Assert\Length(max: 100, maxMessage: 'votre commentaire ne doit pas dépasser les 100 caractères !')]
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
+    #[Assert\NotBlank(message: 'Veuillez renseigner ce champ')]
     #[ORM\Column(length: 200)]
     private ?string $category = null;
 
@@ -28,7 +38,7 @@ class Figure
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updateAt = null;
+    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'figure')]
     private Collection $comments;
@@ -98,14 +108,14 @@ class Figure
         return $this;
     }
 
-    public function getUpdateAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
-        return $this->updateAt;
+        return $this->updatedAt;
     }
 
-    public function setUpdateAt(?\DateTimeImmutable $updateAt): static
+    public function setUpdateAt(?\DateTimeImmutable $updatedAt): static
     {
-        $this->updateAt = $updateAt;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
