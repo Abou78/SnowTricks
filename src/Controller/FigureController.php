@@ -127,4 +127,14 @@ class FigureController extends AbstractController
 
         }
 
+
+    #[Route('/figure/delete/{id}', name: 'figure_delete')]
+    public function delete(EntityManagerInterface $entityManager, Figure $figure)
+    {
+        $entityManager->remove($figure);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('home_home');
+    }
+
 }

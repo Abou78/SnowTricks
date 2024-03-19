@@ -31,7 +31,29 @@
                     <div class="card-body text-end">
                         <a href="{{ path('figure_details', {'id': figure.id}) }}" class="me-3">{{ figure.name }}</a>
                         <a href="#" class="me-3"><i class="fa-solid fa-pencil text-dark"></i></a>
-                        <a href="#" class=""><i class="fa-solid fa-trash-can text-dark"></i></a>
+
+                        <!-- Button trigger modal -->
+                        <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <i class="fa-solid fa-trash-can text-dark"></i>
+                        </a>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Validation</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Etes vous sûr de vouloir supprimer la figure ?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="{{ path('figure_delete', {'id': figure.id}) }}" class=""><i class="fa-solid fa-trash-can text-dark"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
