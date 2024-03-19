@@ -28,7 +28,7 @@ class FigureType extends AbstractType
             ->add('category', ChoiceType::class, [
                 'label' => 'Groupe',
                 'choices' => [
-                    'Groupe 1' => 'Groupe 1',
+                    'Groupe 1' => Figure::GROUPE_1,
                     'Groupe 2' => 'Groupe 2',
                     'Groupe 3' => 'Groupe 3',
                     'Groupe 4' => 'Groupe 4',

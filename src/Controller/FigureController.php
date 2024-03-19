@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class FigureController extends AbstractController
 {
@@ -64,14 +65,14 @@ class FigureController extends AbstractController
            $this->addFlash('comment', 'Votre commentaire a bien été ajoutée !');
         }
 
-        //$comments = $commentRepository->find([]);
+        $comments = $commentRepository->findAll();
 
 
 
         return $this->render('figure/detail.html.twig', [
             "figure" => $figure,
             "commentForm" => $commentForm->createView(),
-            //"comments" => $comments,
+            "comments" => $comments,
         ]);
     }
 
@@ -89,20 +90,21 @@ class FigureController extends AbstractController
             // this condition is needed because the 'brochure' field is not required
             // so the PDF file must be processed only when a file is uploaded
             if ($path) {
+                ($path);
                 $originalFilename = pathinfo($path->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$path->guessExtension();
 
                 // Move the file to the directory where brochures are stored
-                //try {
+                try {
                     $path->move(
                         $this->getParameter('brochures_directory'),
                         $newFilename
                     );
-                /*} catch (FileException $e) {
+                } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
-                }*/
+                }
 
                 // updates the 'brochureFilename' property to store the PDF file name
                 // instead of its contents

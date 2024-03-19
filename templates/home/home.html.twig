@@ -6,7 +6,17 @@
     <div>
         <div>
             <h1>bienvenus!</h1>
-            <p>Plongez dans un monde de sensations glacées et de défis vertigineux avec notre site dédié aux snowtricks : où la passion pour la neige rencontre l'adrénaline de la performance !</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 mb-3">
+            <div class="card text-bg-dark">
+                <img src="{{ asset('medias/istockphoto-65f2c2227c94f.webp') }}" class="card-img" alt="...">
+                <div class="card-img-overlay align-self-center text-dark">
+                    <p class="card-text">Plongez dans un monde de sensations glacées et de défis vertigineux avec notre site dédié aux snowtricks : où la passion pour la neige rencontre l'adrénaline de la performance !</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -14,7 +24,9 @@
         {% for figure in figures %}
             <div class="col-2 ">
                 <div class="card">
-                    <img src="..." class="card-img-top" alt="...">
+                    {% for media in figure.medias %}
+                        <img src="{{ asset('medias/'~media.path) }}" class="card-img-top" alt="{{ media.path }}">
+                    {% endfor %}
 
                     <div class="card-body text-end">
                         <a href="{{ path('figure_details', {'id': figure.id}) }}" class="me-3">{{ figure.name }}</a>

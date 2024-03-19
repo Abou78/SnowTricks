@@ -3,9 +3,38 @@
 {% block title %}{{ parent() }} | {{ figure.name }} detail {% endblock %}
 
 {% block body %}
-    <h1>page {{ figure.name }}</h1>
 
-    <div class="row">
+
+    {#}<div class="row">
+        <div class="col-12 mb-3">
+            <div class="card text-bg-dark">
+                {% for media in figure.medias %}
+                    <div class="col-2">
+                        <img src="{{ asset('medias/' ~ media.path[0])}}" alt="{{ media.description }}" class="img-fluid img-thumbnail">
+                    </div>
+                {% endfor %}
+                <div class="card-img-overlay align-self-center text-dark">
+                    <h1 class="card-text">page {{ figure.name }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>#}
+
+    <div class="row mb-3">
+        {% for media in figure.medias %}
+            <div class="col-2">
+                <img src="{{ asset('medias/' ~ media.path)}}" alt="{{ media.description }}" class="img-fluid img-thumbnail">
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <p>{{ figure.content }}</p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
         <div class="col-4">
             Fait le : {{ figure.createdAt|date('d-m-Y') }}
         </div>
@@ -21,29 +50,35 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row mb-3">
         <div class="mb-3">
             <hr>
         </div>
 
-        <div class="col-3">
+        <div class="col">
             {{ form_start(commentForm)}}
                 {{ form_widget(commentForm)}}
-                <input type="submit" class="btn btn-primary" value="Laissez votre commentaire">
+        </div>
+
+        <div class="col">
+                <input type="submit" class="btn btn-primary text-center" value="Laissez votre commentaire">
             {{ form_end(commentForm)}}
         </div>
 
         <div class="mb-3">
             <hr>
         </div>
+
     </div>
 
-    {#<div class="row">
-        {% for comment in comments %}
-            <div class="col-12">
-                {{ comment.comment }}
+    <div class="row mb-3">
+        <div class="col">
+            <div>
+                {% for comment in comments %}
+                    {{ comment.comment }}
+                {% endfor %}
             </div>
-        {% endfor %}
-    </div>#}
+        </div>
+    </div>
 {% endblock %}
 
