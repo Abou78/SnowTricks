@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | add media {% endblock %}
+
+{% block body %}
+    <h1>Ajout d'un media</h1>
+
+    <div class="row">
+        <div class="col">
+            {{ form_start(mediaForm)}}
+            {{ form_widget(mediaForm)}}
+            <input type="submit" class="btn btn-primary" value="ajouter">
+            {{ form_end(mediaForm)}}
+        </div>
+    </div>
+{% endblock %}
+
