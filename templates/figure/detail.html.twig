@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | {{ figure.name }} detail {% endblock %}
+
+{% block body %}
+
+
+    <div class="row">
+        <div class="col-12 mb-3">
+            <div class="card text-bg-dark">
+                {{ dump(figure.medias.first()) }}
+                <div class="card-img-overlay align-self-center text-dark">
+                    <h1 class="card-text">page {{ figure.name }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        {% for media in figure.medias %}
+            <div class="col-2">
+                <img src="{{ asset('medias/' ~ media.path)}}" alt="{{ media.description }}" class="img-fluid img-thumbnail">
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <p>{{ figure.content }}</p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-4">
+            Fait le : {{ figure.createdAt|date('d-m-Y') }}
+        </div>
+
+        <div class="col-4">
+            Groupe : {{ figure.category }}
+        </div>
+
+        <div class="col-4">
+            {% if(figure.updatedAt) %}
+                Modifiée le : {{ figure.updatedAt|date('d-m-Y') }}
+            {% endif %}
+        </div>
+    </div>
+
+    {% if(app.user) %}
+        <div class="row mb-3">
+            <div class="mb-3"><hr></div>
+
+            <div class="col">
+                {{ form_start(commentForm)}}
+                    {{ form_widget(commentForm)}}
+            </div>
+
+            <div class="col">
+                    <input type="submit" class="btn btn-primary text-center" value="Laissez votre commentaire">
+                {{ form_end(commentForm)}}
+            </div>
+
+            <div class="mb-3"><hr></div>
+
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-12">
+                <div>
+                    {% for comment in comments %}
+                        <div>
+                            {{ comment.comment }}
+                        </div>
+
+                        <div class="col-4 mb-3">
+                            Fait le : {{ comment.createdAt|date('d-m-Y') }}
+                        </div>
+
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
