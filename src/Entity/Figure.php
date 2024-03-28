@@ -14,6 +14,7 @@ class Figure
     public const GROUPE_1 = "Groupe 1";
     public const GROUPE_2 = "Groupe 2";
     public const GROUPE_3 = "Groupe 3";
+    public const GROUPE_4 = "Groupe 4";
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -8,6 +8,7 @@ use App\Entity\Media;
 use App\Form\CommentType;
 use App\Form\FigureType;
 use App\Form\MediaType;
+use App\Handler\UploadHandler;
 use App\Repository\CommentRepository;
 use App\Repository\FigureRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -67,8 +68,6 @@ class FigureController extends AbstractController
 
         $comments = $commentRepository->findAll();
 
-
-
         return $this->render('figure/detail.html.twig', [
             "figure" => $figure,
             "commentForm" => $commentForm->createView(),
@@ -77,7 +76,7 @@ class FigureController extends AbstractController
     }
 
     #[Route('/media', name: 'figure_media')]
-    public function createMedia(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger)
+    public function createMedia(Request $request, UploadHandler $uploadHandler)
     {
         $media = new Media();
         $media->setCreatedAt(new \DateTimeImmutable());
@@ -86,33 +85,13 @@ class FigureController extends AbstractController
         $mediaForm->handleRequest($request);
         if($mediaForm->isSubmitted() and $mediaForm->isValid()){
             $path = $mediaForm->get('media')->getData();
-
             // this condition is needed because the 'brochure' field is not required
             // so the PDF file must be processed only when a file is uploaded
-            if ($path) {
-                ($path);
-                $originalFilename = pathinfo($path->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$path->guessExtension();
 
-                // Move the file to the directory where brochures are stored
-                try {
-                    $path->move(
-                        $this->getParameter('brochures_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
+            $isUploadedMedia=$uploadHandler->handle($path, $media);
+            if ($isUploadedMedia) {
+                ($path);}
 
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $media->setPath($newFilename);
-            }
-
-            $entityManager->persist($media);
-            $entityManager->flush();
 
             $this->addFlash('media', 'Votre media a bien été ajoutée !');
 
@@ -125,7 +104,7 @@ class FigureController extends AbstractController
         ]);
 
 
-        }
+    }
 
 
     #[Route('/figure/delete/{id}', name: 'figure_delete')]
@@ -135,6 +114,30 @@ class FigureController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('home_home');
+    }
+
+    #[Route('/figure/update/{id}', name: 'figure_update')]
+    public function update(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        Figure $figure ): Response
+    {
+        $figure->setUpdateAt(new \DateTimeImmutable());
+        $figureForm = $this->createForm(FigureType::class, $figure);
+
+        $figureForm->handleRequest($request);
+        if ($figureForm->isSubmitted() and $figureForm->isValid()){
+            $entityManager->persist($figure);
+            $entityManager->flush();
+
+            $this->addFlash('figure', 'Votre figure a bien été modifiée !');
+            return $this->redirectToRoute('home_home');
+        }
+
+        return $this->render('figure/update.html.twig', [
+            'figureForm' => $figureForm->createView(),
+            'figure' => $figure,
+        ]);
     }
 
 }
