@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | {{ figure.name }} detail {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12 mb-3">
+            <div class="card text-bg-dark">
+                <img src="{{ asset('medias/'~figure.medias.first().path) }}" alt="{{ figure.medias.first().path }}">
+                <div class="card-img-overlay align-self-center col-4 offset-4 bg-light text-primary text-center">
+                    <h1 class="card-text">page {{ figure.name }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        {% for media in figure.medias %}
+            <div class="col-12 col-md-2">
+                <img src="{{ asset('medias/' ~ media.path)}}" alt="{{ media.description }}" class="img-fluid img-thumbnail">
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-12">
+            <p>{{ figure.content }}</p>
+        </div>
+    </div>
+
+    <div class="row mb-3 justify-content-center">
+        <div class="col-12 col-md-3 mb-3 border border-dark text-center">
+            Fait le : {{ figure.createdAt|date('d-m-Y') }}
+        </div>
+
+        <div class="col-12 col-md-3 mb-3 border border-dark text-center ms-2 me-2">
+            Groupe : {{ figure.category }}
+        </div>
+
+        <div class="col-12 col-md-3 mb-3 border border-dark text-center">
+            {% if(figure.updatedAt) %}
+                Modifiée le : {{ figure.updatedAt|date('d-m-Y') }}
+            {% endif %}
+        </div>
+    </div>
+
+    {% if(app.user) %}
+        <div class="row mb-3">
+            <div class="mb-3"><hr></div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-3 text-end align-self-center">
+                {{ form_start(commentForm)}}
+                {{ form_widget(commentForm)}}
+            </div>
+
+            <div class="col-12 col-md-3 text-start align-self-center">
+                <input type="submit" class="btn btn-primary text-center" value="Laissez votre commentaire">
+            </div>
+
+            {{ form_end(commentForm)}}
+        </div>
+
+        <div class="row mb-3">
+            <div class="mb-3"><hr></div>
+        </div>
+
+
+
+        <div class="row mb-3">
+            <div class="col-12 text-center">
+                <h3 class="text-primary">Les commentaires</h3>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            {% for comment in figure.comments %}
+                <div class="row mb-2">
+                    <div class="col-2 offset-3 text-end align-self-center">
+                        <i class="fa-solid fa-user fa-2xl"></i>
+                    </div>
+                    <div class="col-3 border border-dark">
+                        <p>{{ comment.comment }}</p>
+                        <p>Fait le : {{ comment.createdAt|date('d-m-Y') }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
+
