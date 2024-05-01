@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-12 text-center">
+        <div class="col-12 text-center mb-3 text-primary">
             {% if(app.user) %}
                 <h1>Bonjour {{ app.user.firstname }} {{ app.user.lastname }}</h1>
             {% else %}
@@ -16,53 +16,63 @@
 
     <div class="row">
         <div class="col-12 mb-3">
-            <div class="card text-bg-dark">
+            <div class="card">
                 <img src="{{ asset('medias/media3.webp') }}" class="card-img" alt="media3">
-                <div class="card-img-overlay align-self-center text-dark col-4 offset-4">
+                <div class="card-img-overlay align-self-center text-dark col-4 offset-4 bg-light">
                     <p class="card-text">Plongez dans un monde de sensations glacées et de défis vertigineux avec notre site dédié aux snowtricks : où la passion pour la neige rencontre l'adrénaline de la performance !</p>
                 </div>
+                <a href="#ancre-down"><i class="fa-solid fa-arrow-down text-dark position-absolute bottom-0 end-0"></i></a>
             </div>
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" id="ancre-down">
         {% for figure in figures %}
-            <div class="col-2 ">
+            <div class="col-12 col-md-3 mb-3">
                 <div class="card">
-                    {% for media in figure.medias %}
-                        <img src="{{ asset('medias/'~media.path) }}" class="card-img-top" alt="{{ media.path }}">
-                    {% endfor %}
 
-                    <div class="card-body text-end">
-                        <a href="{{ path('figure_details', {'id': figure.id}) }}" class="me-3">{{ figure.name }}</a>
-                        <a href="{{ path('figure_update', {'id': figure.id}) }}" class="me-3"><i class="fa-solid fa-pencil text-dark"></i></a>
+                    {%  if (figure.medias.first()) %}
+                        <img src="{{ asset('medias/'~figure.medias.first().path) }}" class="card-img-top" alt="{{ figure.medias.first().path }}">
+                    {% else %}
+                        <img src="{{ asset('medias/media3.webp') }}" class="card-img" alt="media3">
+                    {% endif %}
 
-                        <!-- Button trigger modal -->
-                        <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <i class="fa-solid fa-trash-can text-dark"></i>
-                        </a>
+                    <div class="card-body">
+                        <article class="col text-center">
+                            <a href="{{ path('figure_details', {'id': figure.id}) }}" class="me-3 text-center">{{ figure.name }}</a>
+                            <a href="{{ path('figure_update', {'id': figure.id}) }}" class="me-3 text-end"><i class="fa-solid fa-pencil text-dark"></i></a>
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Validation</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Etes vous sûr de vouloir supprimer la figure ?
-                                    </div>
-                                    <div class="modal-footer">
-                                        <a href="{{ path('figure_delete', {'id': figure.id}) }}" class=""><i class="fa-solid fa-trash-can text-dark"></i></a>
+                            <!-- Button trigger modal -->
+                            <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <i class="fa-solid fa-trash-can text-dark"></i>
+                            </a>
+                        </article>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Validation</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Etes vous sûr de vouloir supprimer la figure ?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="{{ path('figure_delete', {'id': figure.id}) }}" class=""><i class="fa-solid fa-trash-can text-dark"></i></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
         {% endfor %}
+    </div>
+    <div class="float-end">
+        <a href="#ancre-down"><i class="fa-solid fa-arrow-up text-dark"></i></a>
     </div>
 
 {% endblock %}
