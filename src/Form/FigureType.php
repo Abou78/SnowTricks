@@ -19,7 +19,7 @@ class FigureType extends AbstractType
         $builder
             ->add('content', TextType::class, [
                 'label' => 'Contenu',
-                'attr' => ['placeholder' => 'Contenu de la fagure !'],
+                'attr' => ['placeholder' => 'Contenu de la figure !'],
             ])
             ->add('name', TextType::class, [
                 'label' => 'Nom :',

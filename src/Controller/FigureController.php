@@ -56,6 +56,7 @@ class FigureController extends AbstractController
 
         $comment = new Comment();
         $comment->setCreatedAt(new \DateTimeImmutable());
+        $comment->setFigure($figure);
 
         $commentForm = $this->createForm(CommentType::class, $comment);
         $commentForm->handleRequest($request);

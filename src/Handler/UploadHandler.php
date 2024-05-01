@@ -9,9 +9,11 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class UploadHandler
 {
-    public function __construct(public readonly EntityManagerInterface $entityManager, public readonly SluggerInterface $slugger)
-    {
-    }
+    public function __construct(
+        public readonly EntityManagerInterface $entityManager,
+        public readonly SluggerInterface $slugger,
+        public readonly string $mediaDirectoryPath
+    ) {}
 
     public function handle(array $paths, Media $media)
     {
@@ -24,17 +26,18 @@ class UploadHandler
             // Move the file to the directory where brochures are stored
             try {
                 $path->move(
-                    $this->getParameter('brochures_directory'),
+                    $this->mediaDirectoryPath,
                     $newFilename
                 );
             } catch (FileException $e) {
                 // ... handle exception if something happens during file upload
             }
+            $media->setPath($newFilename);
         }
 
         // updates the 'brochureFilename' property to store the PDF file name
         // instead of its contents
-        $media->setPath($newFilename);
+
 
         $this->entityManager->persist($media);
         $this->entityManager->flush();
