@@ -16,15 +16,6 @@
         <script src="https://kit.fontawesome.com/bd883aa340.js" crossorigin="anonymous"></script>
     </head>
 
-    {# read and display all flash messages #}
-    {% for label, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="flash-{{ label }}">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endfor %}
-
     <body>
         <div class="container">
             <header>
@@ -35,6 +26,15 @@
             </header>
 
             <main>
+                {# read and display all flash messages #}
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="flash-{{ label }} alert alert-success" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+
                 {% block body %}{% endblock %}
             </main>
 
